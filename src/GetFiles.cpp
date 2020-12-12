@@ -24,7 +24,7 @@ int GetFiles::GetWavFiles(vector<string> &listOfWavFiless)
       string fileInDirectory = string(entry->d_name);
       
       if ( ( string::npos != fileInDirectory.find(wapExtension) || string::npos != fileInDirectory.find(wapExtension2) ) 
-        && ( (fileInDirectory.length() - fileInDirectory.find(wapExtension) == wavLenght || (fileInDirectory.length() -          fileInDirectory.find(wapExtension2)) ) ) )
+        && ( (fileInDirectory.length() - fileInDirectory.find(wapExtension) == wavLenght || (fileInDirectory.length() - fileInDirectory.find(wapExtension2)) ) ) )
       {
          listOfWavFiless.push_back(fileInDirectory); 
       }
