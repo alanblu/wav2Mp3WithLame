@@ -3,6 +3,8 @@
 
 typedef void * (*THREADFUNCPTR)(void *);
 
+using namespace std;
+
 class LameHandler {
   private:
     int read, write;
@@ -17,7 +19,7 @@ class LameHandler {
     
   public:
     /* Constructor */
-    LameHandler (void);
+    LameHandler (string path);
     /* Destructor */
     ~LameHandler (void);
     /* Convert wav to mp3*/

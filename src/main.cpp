@@ -38,17 +38,16 @@ Looking forward to your answer.
 
 using namespace std;
 
-int CreateThreadInLameHandle()
+int CreateThreadInLameHandle(string path)
 {
     /***** Create a New Thread From non static member function******/
-    LameHandler * taskPtr = new LameHandler();
+    LameHandler * taskPtr = new LameHandler(path);
     // Thread id
     pthread_t threadId;
-    // Create a thread and pass class member function Task::execute as argument i.e. thread function
-    // type cast it with a function pointer of type = void * (*)(void *).
-    // As member function takes this pointer of same class as first argument i.e. this pointer
-    // So, pass the pointer to the object of class task as argument to thread function
+    
+    // Create a thread 
     int err = pthread_create(&threadId, NULL, (THREADFUNCPTR) &LameHandler::ExecuteThread,taskPtr);
+    
     // Check if thread is created successfully
     if (err)
     {
@@ -56,7 +55,7 @@ int CreateThreadInLameHandle()
         return err;
     }
     // Do some stuff in Main Thread
-    std::cout << "Waiting for thread " << threadId << " to exit" << std::endl;
+    //cout << "Waiting for thread " << threadId << " to exit" << std::endl;
     // Wait for thread to exit, pass thread id as first argument
     err = pthread_join(threadId, NULL);
     if (err)
@@ -72,10 +71,6 @@ int main(int argc, char *argv[])
     vector<string> allArgs;
     vector<string> filesToConvert;
     
-    //LameHandler lameHandlInst;
-       
-    //lameHandl.ConvertWav2Mp3();
-
     if (argc > 1) 
     {
       
@@ -83,6 +78,12 @@ int main(int argc, char *argv[])
       const string pathToFiles = allArgs[0];
       GetFiles *WapFiles = new GetFiles(pathToFiles.c_str());
       WapFiles->GetWavFiles(filesToConvert);
+      
+      for(const auto& value : filesToConvert)
+      {
+        cout << value  << endl ;
+        CreateThreadInLameHandle(pathToFiles + "/" + value);
+      }
 
     }
     else
@@ -91,13 +92,10 @@ int main(int argc, char *argv[])
     }
 
     
-    for(const auto& value : filesToConvert)
-    {
-      cout << value  << endl ;
-    }
 
 
-    CreateThreadInLameHandle();
+
+    //CreateThreadInLameHandle();
 
 
     pthread_exit(NULL);

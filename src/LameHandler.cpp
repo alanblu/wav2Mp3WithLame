@@ -3,10 +3,12 @@
 
 using namespace std;
 
-LameHandler::LameHandler()
+LameHandler::LameHandler(string path)
 {
-    pcm = fopen("testcase.wav", "rb");
-    mp3 = fopen("testcase4.mp3", "wb");
+    string outputPath = path;
+    cout << outputPath.replace((outputPath.length() - 3),3,"mp3")  << endl ;
+    pcm = fopen(path.c_str(), "rb");
+    mp3 = fopen(outputPath.c_str(), "wb");
 
     /* Set all the standars parameters */
     lame = lame_init();
